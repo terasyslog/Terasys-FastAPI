@@ -1,0 +1,9 @@
+gunicorn
+uvicorn
+fastapi
+loguru
+sqlalchemy
+openai
+slack_sdk
+passlib
+mysql-connector-python
