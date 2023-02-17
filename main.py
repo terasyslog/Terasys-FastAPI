@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sql_app import crud, models, schemas
-from util.util import get_context, get_db, output, sendMassage, get_update_context, _is_json_key, hash#, validate_date
+from util.util import get_context, get_db, output, sendMassage, get_update_context, _is_json_key, validate_date, hash
 from datetime import datetime as dt
 import route.issue_route as issue_route
 # gpt

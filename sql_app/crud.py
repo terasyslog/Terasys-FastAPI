@@ -16,12 +16,13 @@ def search_userId(db: Session, id: str):
 
 # --------------------------- ISSUE SEARCH ------------------------------------------------------------------------------------
 # 전체리스트 조회
+# 전체리스트 조회
 def search_all(db: Session):
     return db.query(models.Issue).order_by(models.Issue.update_time.desc()).all()
 
-# KEY(이슈번호) 값으로 조회
-def search_key(db: Session, number: int):
-    return db.query(models.Issue).filter(models.Issue.key == number).first()
+# 키값으로 조회
+def search_key(db: Session, key: int):
+    return db.query(models.Issue).filter(models.Issue.key == key).order_by(models.Issue.update_time.desc()).all()
 
 # 이슈제목으로 조회
 def search_title(db: Session, title):

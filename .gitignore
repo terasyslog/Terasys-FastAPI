@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#################
+run.sh
+gunicorn_log/
+secrets.json
+gunicorn_conf.py
