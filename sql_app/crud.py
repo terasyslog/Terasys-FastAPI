@@ -66,6 +66,7 @@ def create_issue(db: Session, issue: schemas.Issue):
         author_name = issue.author_name,
         author_id = issue.author_id,
         write_time = issue.write_time,
+        update_time = issue.update_time,
         solution = issue.solution,
         project_id = issue.project_id,
         project_name = issue.project_name,
