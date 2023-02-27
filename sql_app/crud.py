@@ -16,46 +16,47 @@ def search_userId(db: Session, id: str):
 
 # --------------------------- ISSUE SEARCH ------------------------------------------------------------------------------------
 # 전체리스트 조회
-def search_all(db: Session):
-    return db.query(models.Issue).order_by(models.Issue.update_time.desc()).all()
+def search_all(db: Session, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
+    #return db.query(models.Issue).order_by(models.Issue.update_time.desc()).all()
 
 # KEY(이슈번호) 값으로 조회
 def search_key(db: Session, number: int):
     return db.query(models.Issue).filter(models.Issue.key == number).first()
 
 # 이슈제목으로 조회
-def search_title(db: Session, title):
-    return db.query(models.Issue).filter(models.Issue.title.like(f'%{title}%')).order_by(models.Issue.update_time.desc()).all()
+def search_title(db: Session, title, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.title.like(f'%{title}%')).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 이슈내용으로 조회
-def search_detail(db: Session, detail):
-    return db.query(models.Issue).filter(models.Issue.detail.like(f'%{detail}%')).order_by(models.Issue.update_time.desc()).all()
+def search_detail(db: Session, detail, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.detail.like(f'%{detail}%')).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 해결방안으로 조회
-def search_solution(db: Session, solution):
-    return db.query(models.Issue).filter(models.Issue.solution.like(f'%{solution}%')).order_by(models.Issue.update_time.desc()).all()
+def search_solution(db: Session, solution, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.solution.like(f'%{solution}%')).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 작성날짜로 조회
-def search_write_time(db: Session, write_time):
+def search_write_time(db: Session, write_time, offset: int, limit: int):
     write_time = datetime.strptime(write_time, '%Y-%m-%d').date()
-    return db.query(models.Issue).filter(models.Issue.write_time == write_time).order_by(models.Issue.update_time.desc()).all()
+    return db.query(models.Issue).filter(models.Issue.write_time == write_time).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 갱신날짜로 조회
-def search_update_time(db: Session, update_time):
+def search_update_time(db: Session, update_time, offset: int, limit: int):
     update_time = datetime.strptime(update_time, '%Y-%m-%d').date()
-    return db.query(models.Issue).filter(models.Issue.update_time == update_time).order_by(models.Issue.update_time.desc()).all()
+    return db.query(models.Issue).filter(models.Issue.update_time == update_time).filter(models.Issue.state==1).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 작성자로 조회
-def search_author_name(db: Session, author_name):
-    return db.query(models.Issue).filter(models.Issue.author_name.like(f'%{author_name}%')).order_by(models.Issue.update_time.desc()).all()
+def search_author_name(db: Session, author_name, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.author_name.like(f'%{author_name}%')).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 프로젝트로 조회
-def search_project_name(db: Session, project_name):
-    return db.query(models.Issue).filter(models.Issue.project_name.like(f'%{project_name}%')).order_by(models.Issue.update_time.desc()).all()
+def search_project_name(db: Session, project_name, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.project_name.like(f'%{project_name}%')).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # 카테고리로 조회
-def search_category_name(db: Session, category_name):
-    return db.query(models.Issue).filter(models.Issue.category_name.like(f'%{category_name}%')).order_by(models.Issue.update_time.desc()).all()
+def search_category_name(db: Session, category_name, offset: int, limit: int):
+    return db.query(models.Issue).filter(models.Issue.category_name.like(f'%{category_name}%')).order_by(models.Issue.update_time.desc()).offset(offset).limit(limit).all()
 
 # ----------------------------------- ISSUE CREATE -------------------------------------------------------------------------
 

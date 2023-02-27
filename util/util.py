@@ -5,6 +5,7 @@ from slack_sdk.errors import SlackApiError
 from util.config import slack_token
 from passlib.context import CryptContext
 import json
+import datetime
 
 def get_db():
     db = SessionLocal()
@@ -68,7 +69,7 @@ class hash:
     def get_password_hash(self, password):
         return self.pwd_context.hash(password)
     
-    def validate_date(date_text):
+def validate_date(date_text):
 	try:
 		datetime.datetime.strptime(date_text,"%Y-%m-%d")
 		return True

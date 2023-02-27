@@ -230,20 +230,25 @@ def backgroundworker(text):
 async def search_all(request: Request, db: Session = Depends(get_db)):
     try:
         context = await request.body()
-        context = await get_update_context(context) # 혹시나 flutter에서 바로 dict타입으로 넘어온다면 해당 줄 삭제 필요합니다.
+        context = await get_update_context(context)
+        offset=0
+        limit=100
+        
+        if(_is_json_key(context, 'offset')):offset=context['offset']
+        if(_is_json_key(context, 'limit')):limit=context['limit']        
         
         #조회할 키 값이 있는경우 해당 내용으로 조회 / 키값 없이 요청받을 경우 전체조회
         if(_is_json_key(context, 'key') and str(context['key']).isdigit()):return jsonable_encoder(crud.search_key(db,context['key']))
-        elif(_is_json_key(context, 'title')):return jsonable_encoder(crud.search_title(db,context['title']))
-        elif(_is_json_key(context, 'detail')):return jsonable_encoder(crud.search_detail(db,context['detail']))
-        elif(_is_json_key(context, 'solution')):return jsonable_encoder(crud.search_solution(db,context['solution']))
-        elif(_is_json_key(context, 'write_time')):return jsonable_encoder(crud.search_write_time(db,context['write_time']))
-        elif(_is_json_key(context, 'write_time') and validate_date(context['write_time'])):return jsonable_encoder(crud.search_write_time(db,context['write_time']))
-        elif(_is_json_key(context, 'update_time')and validate_date(context['write_time'])):return jsonable_encoder(crud.search_update_time(db,context['update_time']))
-        elif(_is_json_key(context, 'project_name')):return jsonable_encoder(crud.search_project_name(db,context['project_name']))
-        elif(_is_json_key(context, 'category_name')):return jsonable_encoder(crud.search_category_name(db,context['category_name']))
+        elif(_is_json_key(context, 'title') and context['title']!=''):return jsonable_encoder(crud.search_title(db,context['title'], offset, limit))
+        elif(_is_json_key(context, 'detail') and context['detail']!=''):return jsonable_encoder(crud.search_detail(db,context['detail'], offset, limit))
+        elif(_is_json_key(context, 'solution') and context['solution']!=''):return jsonable_encoder(crud.search_solution(db,context['solution'], offset, limit))
+        elif(_is_json_key(context, 'author_name') and context['author_name']!=''):return jsonable_encoder(crud.search_author_name(db,context['author_name'], offset, limit))
+        elif(_is_json_key(context, 'write_time') and validate_date(context['write_time'])):return jsonable_encoder(crud.search_write_time(db,context['write_time'], offset, limit))
+        elif(_is_json_key(context, 'update_time')and validate_date(context['update_time'])):return jsonable_encoder(crud.search_update_time(db,context['update_time'], offset, limit))
+        elif(_is_json_key(context, 'project_name') and context['project_name']!=''):return jsonable_encoder(crud.search_project_name(db,context['project_name'], offset, limit))
+        elif(_is_json_key(context, 'category_name') and context['category_name']!=''):return jsonable_encoder(crud.search_category_name(db,context['category_name'], offset, limit))
         
-        return jsonable_encoder(crud.search_all(db))
+        return jsonable_encoder(crud.search_all(db, offset, limit))
     except Exception as e :
         logger.debug(f"search Failed {e}")
         return {"result":"-1", "error":f"{e}"}
